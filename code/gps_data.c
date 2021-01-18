@@ -20,28 +20,32 @@ static void rx_cb(void *uart, uint8_t c);
 struct gps_data getGPSData(void) {
     msg_t msg;
     char buff[100] = {0};
-    char sentences[3][100]; // {{rmc}, {gll}, {vtg}}
+    char sentences[3][100] = {0}; // {{rmc}, {gll}, {vtg}}
     int i = 0;
-    bool lock[3] = {false}; // {rmc, gll, vtg}
+    bool lock[3] = {true, true, true}; // {rmc, gll, vtg}
 
-    while (!lock[0] && !lock[1] && !lock[2]) {
+    while (lock[0] || lock[1] || lock[2]) {
         msg_receive(&msg);
         if ((((char)msg.content.value) == '$')) {
             if (strstr(buff, strTypes[rmc])) {
                 buff[i] = '\0';
+                printf("NMEA: %s", buff);
                 memcpy(sentences[0], buff, 100);
-                lock[0] = true;
+                lock[0] = false;
             }
             else if (strstr(buff, strTypes[gll])) {
                 buff[i] = '\0';
+                printf("NMEA: %s", buff);
                 memcpy(sentences[1], buff, 100);
-                lock[1] = true;
+                lock[1] = false;
             }
             else if (strstr(buff, strTypes[vtg])) {
                 buff[i] = '\0';
+                printf("NMEA: %s", buff);
                 memcpy(sentences[2], buff, 100);
-                lock[2] = true;
+                lock[2] = false;
             }
+            memset(buff, 0, 100);
             i = 0;
         }
         buff[i] = (char)msg.content.value;
@@ -69,15 +73,16 @@ struct gps_data getGPSData(void) {
     minmea_parse_vtg(&svtg, sentences[2]); // vtg sentence
     data.gps.vel = minmea_tofloat(&svtg.speed_kph);
 
-    printf("-------Date-------\n");
-    printf("day: %d, month: %d, year: %d\n\n", 
-        data.date.d, data.date.m, data.date.y);
-    printf("-------Time-------\n");
-    printf("hour: %d, min: %d, sec: %d, mircosec: %d\n\n", 
-        data.time.hour, data.time.min, data.time.sec, data.time.mic);
-    printf("-------GPS-------\n");
-    printf("long: %f, lat: %f, speed %f\n\n", 
-        data.gps.lng, data.gps.lat, data.gps.vel);
+    /* printf("NMEA: %s \n", sentences[0]);
+    printf("NMEA: %s \n", sentences[1]);
+    printf("NMEA: %s \n", sentences[2]); */
+    printf("Date: day: %d, month: %d, year: %d\n", 
+    data.date.d, data.date.m, data.date.y);
+    printf("Time: hour: %d, min: %d, sec: %d, mircosec: %d\n", 
+    data.time.hour, data.time.min, data.time.sec, data.time.mic);
+    printf("GPS: long: %f, lat: %f, speed %f\n", 
+    data.gps.lng, data.gps.lat, data.gps.vel);
+    printf("\n\n");
 
     return data;
 }
