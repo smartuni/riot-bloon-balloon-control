@@ -29,7 +29,7 @@ USEMODULE += ps
 USEMODULE += saul_default
 
 USEMODULE += bme280_i2c
-USEMODULE += sx1276  # for a SX1276 radio device
+USEMODULE += sx1272  # for a SX1272 radio device
 USEMODULE += semtech_loramac_rx
 USEMODULE += tinycbor_float
 USEMODULE += xtimer

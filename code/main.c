@@ -162,7 +162,7 @@ int main(void)
     /* 3. join the network */
     if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED) {
         puts("Join procedure failed");
-        return 1;
+        //return 1;
     }
     puts("Join procedure succeeded");
     /* 3.5 Join succeded, create thread */
