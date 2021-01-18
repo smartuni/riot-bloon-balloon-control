@@ -161,10 +161,10 @@ int main(void)
     semtech_loramac_set_appkey(&loramac, appkey);
     /* 3. join the network */
     if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED) {
-        puts("Join procedure failed");
+        puts("LoRa join procedure failed");
         //return 1;
     }
-    puts("Join procedure succeeded");
+    puts("LoRa join procedure succeeded");
     /* 3.5 Join succeded, create thread */
     
     thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
