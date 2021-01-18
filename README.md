@@ -1,2 +1,1 @@
-# RIOT_BALLON_CONTROL
-
+## Mini Loon: Balloon Control
