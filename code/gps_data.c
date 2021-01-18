@@ -69,13 +69,18 @@ struct gps_data getGPSData(void) {
     minmea_parse_vtg(&svtg, sentences[2]); // vtg sentence
     data.gps.vel = minmea_tofloat(&svtg.speed_kph);
 
+
+
     printf("-------Date-------\n");
+    printf("NMEA: %s \n", sentences[0]);
     printf("day: %d, month: %d, year%d\n\n", 
         data.date.d, data.date.m, data.date.y);
     printf("-------Time-------\n");
     printf("hour: %d, min: %d, sec: %d, mircosec: %ld\n\n", 
         data.time.hour, data.time.min, data.time.sec, data.time.mic);
     printf("-------GPS-------\n");
+    printf("NMEA: %s \n", sentences[1]);
+    printf("NMEA: %s \n", sentences[2]);
     printf("long: %f, lat: %f, speed %f\n\n", 
         data.gps.lng, data.gps.lat, data.gps.vel);
 
