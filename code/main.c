@@ -142,8 +142,8 @@ static void *_periodic_send(void *arg){
 int main(void)
 {
 
-   // gpio_init(GPIO_PIN(0,2), GPIO_OUT);
-   // gpio_init(GPIO_PIN(0,4), GPIO_OUT);
+    gpio_init(GPIO_PIN(0,2), GPIO_OUT);
+    gpio_init(GPIO_PIN(0,4), GPIO_OUT);
 
     // INIT GPS
     initGPSData();
