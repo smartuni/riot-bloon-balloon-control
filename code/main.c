@@ -163,8 +163,9 @@ int main(void)
     if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED) {
         puts("LoRa join procedure failed");
         //return 1;
+    } else {
+        puts("LoRa join procedure succeeded");
     }
-    puts("LoRa join procedure succeeded");
     /* 3.5 Join succeded, create thread */
     
     thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
