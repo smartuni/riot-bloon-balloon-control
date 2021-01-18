@@ -47,6 +47,8 @@ static const shell_command_t shell_commands[] = {
     { NULL, NULL, NULL }
 };
 
+struct gps_data gps_data = {0};
+
 
 //#define RECV_MSG_QUEUE                   (4U)
 //static msg_t _recv_queue[RECV_MSG_QUEUE];
@@ -82,7 +84,6 @@ static void *_periodic_send(void *arg){
     uint8_t buf[BUFSIZE] = {0};
     phydat_t res;
     CborEncoder encoder, mapEncoder;
-    struct gps_data gps_data = {0};
 
     devTemp = saul_reg_find_type(SAUL_SENSE_TEMP);
     devHum = saul_reg_find_type(SAUL_SENSE_HUM);
@@ -109,7 +110,7 @@ static void *_periodic_send(void *arg){
         addFloatToMap("hum", ((float) res.val[0]) / 100.0, &mapEncoder);
         //cbor_encoder_close_container_checked(&encoder, &mapEncoder);
     
-        //gps_data = getGPSData();
+        gps_data = getGPSData();
         addFloatToMap("long", gps_data.gps.lng, &mapEncoder);
         addFloatToMap("lat", gps_data.gps.lat, &mapEncoder);
         addFloatToMap("vel", gps_data.gps.vel, &mapEncoder);
@@ -146,7 +147,9 @@ int main(void)
     gpio_init(GPIO_PIN(0,4), GPIO_OUT);
 
     // INIT GPS
-    initGPSData();
+    kernel_pid_t lora_tid = thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
+    //thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
+    initGPSData(lora_tid);
 
     /* for the thread running the shell */
     msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
@@ -168,7 +171,6 @@ int main(void)
     }
     /* 3.5 Join succeded, create thread */
     
-    thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
     return 0;
 }

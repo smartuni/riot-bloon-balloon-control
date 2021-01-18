@@ -1,5 +1,6 @@
 #include "inttypes.h"
 #include "float.h"
+#include "thread.h"
 
 struct date {
     uint8_t d;
@@ -27,4 +28,4 @@ struct gps_data {
 };
 
 struct gps_data getGPSData(void);
-void initGPSData(void);
+void initGPSData(kernel_pid_t lora_tid);

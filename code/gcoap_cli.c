@@ -104,6 +104,8 @@ static uint16_t req_count = 0;
 
 static uint16_t valve_open_time = 0;
 
+extern struct gps_data gps_data;
+
 /* Adds link format params to resource list */
 static ssize_t _encode_link(const coap_resource_t *resource, char *buf,
                             size_t maxlen, coap_link_encoder_ctx_t *context) {

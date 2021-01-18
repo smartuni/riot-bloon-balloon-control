@@ -14,7 +14,7 @@
 
 enum types{rmc, gga, gsa, gll, gst, gsv, vtg, zda};
 static char strTypes[8][4] = {"RMC", "GGA", "GSA", "GLL", "GST", "GSV", "VTG", "ZDA"};
-static kernel_pid_t main_thread_pid;
+static kernel_pid_t rcv_tid;
 static void rx_cb(void *uart, uint8_t c);
 
 struct gps_data getGPSData(void) {
@@ -73,7 +73,7 @@ struct gps_data getGPSData(void) {
     printf("day: %d, month: %d, year%d\n\n", 
         data.date.d, data.date.m, data.date.y);
     printf("-------Time-------\n");
-    printf("hour: %d, min: %d, sec: %d, mircosec: %d\n\n", 
+    printf("hour: %d, min: %d, sec: %d, mircosec: %ld\n\n", 
         data.time.hour, data.time.min, data.time.sec, data.time.mic);
     printf("-------GPS-------\n");
     printf("long: %f, lat: %f, speed %f\n\n", 
@@ -82,8 +82,8 @@ struct gps_data getGPSData(void) {
     return data;
 }
 
-void initGPSData(void) {
-    main_thread_pid = thread_getpid();
+void initGPSData(kernel_pid_t lora_tid) {
+    rcv_tid = lora_tid;
     uart_init(DEV, BAUDRATE, rx_cb, (void*)DEV);
 
     //const uint8_t command[] = "$PMTK225,9*22";
@@ -114,5 +114,5 @@ static void rx_cb(void *uart, uint8_t c)
     msg_t msg;
     msg.type = (int)uart;
     msg.content.value = (uint32_t)c;
-    msg_send(&msg, main_thread_pid);
+    msg_send(&msg, rcv_tid);
 }
