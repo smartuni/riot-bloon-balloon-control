@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name balloon_control.llib)(type Legacy)(uri ${KIPRJMOD}/balloon_control.llib.lib)(options "")(descr ""))
+  (lib (name riot-rescue)(type Legacy)(uri ${KIPRJMOD}/riot-rescue.lib)(options "")(descr ""))
+)
