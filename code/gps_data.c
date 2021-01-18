@@ -70,10 +70,10 @@ struct gps_data getGPSData(void) {
     data.gps.vel = minmea_tofloat(&svtg.speed_kph);
 
     printf("-------Date-------\n");
-    printf("day: %d, month: %d, year%d\n\n", 
+    printf("day: %d, month: %d, year: %d\n\n", 
         data.date.d, data.date.m, data.date.y);
     printf("-------Time-------\n");
-    printf("hour: %d, min: %d, sec: %d, mircosec: %ld\n\n", 
+    printf("hour: %d, min: %d, sec: %d, mircosec: %d\n\n", 
         data.time.hour, data.time.min, data.time.sec, data.time.mic);
     printf("-------GPS-------\n");
     printf("long: %f, lat: %f, speed %f\n\n", 
