@@ -8,6 +8,7 @@
 #include "periph/uart.h"
 #include "string.h"
 #include "stdint.h"
+#include "config.h"
 
 #define BAUDRATE (9600U)
 #define DEV UART_DEV(1)
@@ -22,28 +23,39 @@ struct gps_data getGPSData(void) {
     char buff[100] = {0};
     char sentences[3][100] = {0}; // {{rmc}, {gll}, {vtg}}
     int i = 0;
-    bool lock[3] = {true, true, true}; // {rmc, gll, vtg}
+    bool lock[5] = {true, true, true, true, true}; // {rmc, gll, vtg, gsv, gsa}
 
     while (lock[0] || lock[1] || lock[2]) {
         msg_receive(&msg);
+        
         if ((((char)msg.content.value) == '$')) {
             if (strstr(buff, strTypes[rmc])) {
                 buff[i] = '\0';
-                printf("NMEA: %s", buff);
+                if (DEBUG_GPS) printf("NMEA: %s", buff);
                 memcpy(sentences[0], buff, 100);
                 lock[0] = false;
             }
             else if (strstr(buff, strTypes[gll])) {
                 buff[i] = '\0';
-                printf("NMEA: %s", buff);
+                if (DEBUG_GPS) printf("NMEA: %s", buff);
                 memcpy(sentences[1], buff, 100);
                 lock[1] = false;
             }
             else if (strstr(buff, strTypes[vtg])) {
                 buff[i] = '\0';
-                printf("NMEA: %s", buff);
+                if (DEBUG_GPS) printf("NMEA: %s", buff);
                 memcpy(sentences[2], buff, 100);
                 lock[2] = false;
+            }
+            else if (strstr(buff, strTypes[gsv])) {
+                buff[i] = '\0';
+                if (DEBUG_GPS) printf("NMEA: %s", buff);
+                lock[3] = false;
+            }
+            else if (strstr(buff, strTypes[gsa])) {
+                buff[i] = '\0';
+                if (DEBUG_GPS) printf("NMEA: %s", buff);
+                lock[4] = false;
             }
             memset(buff, 0, 100);
             i = 0;
@@ -76,13 +88,15 @@ struct gps_data getGPSData(void) {
     /* printf("NMEA: %s \n", sentences[0]);
     printf("NMEA: %s \n", sentences[1]);
     printf("NMEA: %s \n", sentences[2]); */
-    printf("Date: day: %d, month: %d, year: %d\n", 
-    data.date.d, data.date.m, data.date.y);
-    printf("Time: hour: %d, min: %d, sec: %d, mircosec: %d\n", 
-    data.time.hour, data.time.min, data.time.sec, data.time.mic);
-    printf("GPS: long: %f, lat: %f, speed %f\n", 
-    data.gps.lng, data.gps.lat, data.gps.vel);
-    printf("\n\n");
+    if (DEBUG_GPS) {
+        printf("Date: day: %d, month: %d, year: %d\n", 
+        data.date.d, data.date.m, data.date.y);
+        printf("Time: hour: %d, min: %d, sec: %d, mircosec: %d\n", 
+        data.time.hour, data.time.min, data.time.sec, data.time.mic);
+        printf("GPS: long: %f, lat: %f, speed %f\n", 
+        data.gps.lng, data.gps.lat, data.gps.vel);
+        printf("\n\n");
+    }
 
     return data;
 }

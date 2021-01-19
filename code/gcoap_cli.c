@@ -191,8 +191,8 @@ static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
     cbor_encoder_init(&encoder, buffer, sizeof(buffer), 0);
     cbor_encoder_create_map(&encoder, &mapEncoder, CborIndefiniteLength);
 
-    struct gps_data gps_data = {0};
-    //gps_data = getGPSData();
+    // struct gps_data gps_data = {0};
+    // gps_data = getGPSData();
 
     addFloatToMap("long", gps_data.gps.lng, &mapEncoder);
     addFloatToMap("lat", gps_data.gps.lat, &mapEncoder);

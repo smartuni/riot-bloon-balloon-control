@@ -49,16 +49,16 @@ CFLAGS += -DBMX280_PARAM_I2C_ADDR=0x76
 
 LORA_REGION = EU868
 
-#USEMODULE += esp_wifi
+USEMODULE += esp_wifi
 
-#WIFI_SSID ?= "hack_n_ack"
-#WIFI_PASS ?= "ThefriendlyOSfortheIoT"
+WIFI_SSID ?= "example_ssid"
+WIFI_PASS ?= "example_password"
 
 #CFLAGS += -DBMX280_PARAM_I2C_ADDR=0x76
 
 
-#CFLAGS += -DESP_WIFI_SSID=\"$(WIFI_SSID)\"
-#CFLAGS += -DESP_WIFI_PASS=\"$(WIFI_PASS)\"
+CFLAGS += -DESP_WIFI_SSID=\"$(WIFI_SSID)\"
+CFLAGS += -DESP_WIFI_PASS=\"$(WIFI_PASS)\"
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the

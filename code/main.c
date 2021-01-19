@@ -33,17 +33,21 @@
 #include "periph/uart.h"
 #include "cbor_util.h"
 
-
 #define BUFSIZE 128
 #define MSG_LENGTH 31
 #define MAIN_QUEUE_SIZE (4)
+
+bool DEBUG_GPS = false;
+
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 
+int debug_toggle(int argc, char **argv);
 extern int gcoap_cli_cmd(int argc, char **argv);
 extern void gcoap_cli_init(void);
 
 static const shell_command_t shell_commands[] = {
     { "coap", "CoAP example", gcoap_cli_cmd },
+    { "debug", "Toggle debug prints", debug_toggle },
     { NULL, NULL, NULL }
 };
 
@@ -138,6 +142,25 @@ static void *_periodic_send(void *arg){
         xtimer_sleep(10);
     }
     return NULL;
+}
+
+int debug_toggle(int argc, char **argv)
+{
+    if (strcmp(argv[1], "gps") == 0) {
+        printf("Debug toggle: gps => ");
+        if (DEBUG_GPS) {
+            printf("false");
+            DEBUG_GPS = false;
+        } else {
+            printf("true");
+            DEBUG_GPS = true;
+        }
+        printf("\n");
+    } else {
+        printf("Debug toggle: debug target does not exist\n");
+    }
+
+    return 0;
 }
 
 int main(void)
