@@ -97,8 +97,6 @@ Text GLabel 4550 5050 2    50   Input ~ 0
 ESP_I2C_SCL
 Text GLabel 1400 4900 0    50   Input ~ 0
 ESP_I2C_SCL
-Text Notes 5050 4750 0    50   ~ 0
-Hier sollte nochmal geklärt werden, \nob es jetzt UART2 (datasheet) oder UART1 (periph_conf bei RIOT)ist
 Text GLabel 4550 3750 2    50   Input ~ 0
 ESP_GPIO2
 Text GLabel 4550 5650 2    50   Input ~ 0
@@ -179,20 +177,6 @@ Wire Wire Line
 Connection ~ 2750 2250
 Text GLabel 7100 2000 0    50   Input ~ 0
 GND
-Text GLabel 7100 1900 0    50   Input ~ 0
-VCC_3V3
-Text GLabel 7100 1800 0    50   Input ~ 0
-ESP_I2C_SDA
-Text GLabel 7100 1700 0    50   Input ~ 0
-ESP_I2C_SCL
-Text GLabel 7100 1600 0    50   Input ~ 0
-ESP_VSPI_SCK
-Text GLabel 7100 1500 0    50   Input ~ 0
-ESP_VSPI_MISO
-Text GLabel 7100 1400 0    50   Input ~ 0
-ESP_VSPI_MOSI
-Text GLabel 7100 1300 0    50   Input ~ 0
-ESP_VSPI_CS0
 $Comp
 L Connector:Conn_01x02_Male J3
 U 1 1 5FF45A9D
@@ -265,21 +249,6 @@ Text GLabel 4550 3850 2    50   Input ~ 0
 ESP_U0RXD
 Text GLabel 4550 3650 2    50   Input ~ 0
 ESP_U0TXD
-$Comp
-L Connector:Conn_01x10_Male J4
-U 1 1 5FF8A26D
-P 7300 1600
-F 0 "J4" H 7272 1482 50  0000 R CNN
-F 1 "Conn_01x10_Male_I2C_SPI_plus" H 7272 1573 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical" H 7300 1600 50  0001 C CNN
-F 3 "~" H 7300 1600 50  0001 C CNN
-	1    7300 1600
-	-1   0    0    1   
-$EndComp
-Text GLabel 7100 1100 0    50   Input ~ 0
-ESP_U0TXD
-Text GLabel 7100 1200 0    50   Input ~ 0
-ESP_U0RXD
 Text GLabel 4550 4750 2    50   Input ~ 0
 ESP_VSPI_SCK
 Text GLabel 4550 4050 2    50   Input ~ 0
@@ -344,10 +313,10 @@ F 3 "~" H 5950 2550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L balloon_control.llib:L96-M33 U?
+L balloon_control.llib:L96-M33 U5
 U 1 1 600746DA
 P 5050 1550
-F 0 "U?" H 5050 2617 50  0000 C CNN
+F 0 "U5" H 5050 2617 50  0000 C CNN
 F 1 "L96-M33" H 5050 2526 50  0000 C CNN
 F 2 "XCVR_L96-M33" H 5050 1550 50  0001 L BNN
 F 3 "https://www.quectel.com/UploadImage/Downlad/Quectel_L96_Hardware_Design_V1.2.pdf" H 5050 1550 50  0001 L BNN
@@ -364,4 +333,41 @@ Text GLabel 5950 1150 2    50   Input ~ 0
 L96_ANT
 Text GLabel 5950 1050 2    50   Input ~ 0
 L96_ANT
+Text GLabel 7100 1200 0    50   Input ~ 0
+ESP_U0RXD
+Text GLabel 7100 1100 0    50   Input ~ 0
+ESP_U0TXD
+Text GLabel 7100 1300 0    50   Input ~ 0
+ESP_VSPI_CS0
+Text GLabel 7100 1400 0    50   Input ~ 0
+ESP_VSPI_MOSI
+Text GLabel 7100 1500 0    50   Input ~ 0
+ESP_VSPI_MISO
+Text GLabel 7100 1600 0    50   Input ~ 0
+ESP_VSPI_SCK
+Text GLabel 7100 1700 0    50   Input ~ 0
+ESP_I2C_SCL
+Text GLabel 7100 1800 0    50   Input ~ 0
+ESP_I2C_SDA
+Text GLabel 7100 1900 0    50   Input ~ 0
+VCC_3V3
+$Comp
+L Connector:Conn_01x12_Male J?
+U 1 1 60080608
+P 7300 1500
+F 0 "J?" H 7272 1382 50  0000 R CNN
+F 1 "Conn_01x12_Male" H 7272 1473 50  0000 R CNN
+F 2 "" H 7300 1500 50  0001 C CNN
+F 3 "~" H 7300 1500 50  0001 C CNN
+	1    7300 1500
+	-1   0    0    1   
+$EndComp
+Text GLabel 7100 1000 0    50   Input ~ 0
+ESP_EN
+Text GLabel 7100 900  0    50   Input ~ 0
+ESP_IO0
+Text GLabel 3350 3550 0    50   Input ~ 0
+ESP_EN
+Text GLabel 4550 3550 2    50   Input ~ 0
+ESP_IO0
 $EndSCHEMATC
