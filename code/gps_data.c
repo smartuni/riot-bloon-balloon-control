@@ -9,6 +9,7 @@
 #include "string.h"
 #include "stdint.h"
 #include "config.h"
+#include "led.h"
 
 #define BAUDRATE (9600U)
 #define DEV UART_DEV(1)
@@ -21,11 +22,11 @@ static void rx_cb(void *uart, uint8_t c);
 struct gps_data getGPSData(void) {
     msg_t msg;
     char buff[100] = {0};
-    char sentences[3][100] = {0}; // {{rmc}, {gll}, {vtg}}
+    char sentences[4][100] = {0}; // {{rmc}, {gll}, {vtg}, {gsv}}
     int i = 0;
     bool lock[5] = {true, true, true, true, true}; // {rmc, gll, vtg, gsv, gsa}
 
-    while (lock[0] || lock[1] || lock[2]) {
+    while (lock[0] || lock[1] || lock[2] || lock[3]) {
         msg_receive(&msg);
         
         if ((((char)msg.content.value) == '$')) {
@@ -50,6 +51,7 @@ struct gps_data getGPSData(void) {
             else if (strstr(buff, strTypes[gsv])) {
                 buff[i] = '\0';
                 if (DEBUG_GPS) printf("NMEA: %s", buff);
+                memcpy(sentences[3], buff, 100);
                 lock[3] = false;
             }
             else if (strstr(buff, strTypes[gsa])) {
@@ -84,6 +86,17 @@ struct gps_data getGPSData(void) {
     struct minmea_sentence_vtg svtg;
     minmea_parse_vtg(&svtg, sentences[2]); // vtg sentence
     data.gps.vel = minmea_tofloat(&svtg.speed_kph);
+
+    struct minmea_sentence_gsv sgsv;
+    minmea_parse_gsv(&sgsv, sentences[3]);
+    data.n_satellites = (uint8_t) sgsv.total_sats;
+    if(data.n_satellites >= 5){
+        setLEDColor(1, GREEN, 255);
+    } else if(data.n_satellites > 0) {
+        setLEDColor(1, ORANGE, 255);
+    } else {
+        setLEDColor(1, RED, 255);
+    }
 
     /* printf("NMEA: %s \n", sentences[0]);
     printf("NMEA: %s \n", sentences[1]);

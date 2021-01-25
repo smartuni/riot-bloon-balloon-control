@@ -30,6 +30,7 @@ struct gps_data {
     struct gps gps;
     struct time time;
     struct date date;
+    uint8_t n_satellites;
 };
 
 struct gps_data getGPSData(void);

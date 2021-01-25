@@ -39,6 +39,12 @@ int setLEDColor(uint8_t led, my_color color, uint8_t alpha){
             leds[led].color.r = 255;
             break;
         }
+        case ORANGE: {
+            leds[led].color.b = 0;
+            leds[led].color.g = 128;
+            leds[led].color.r = 255;
+            break;
+        }
         default: break;
     }
     apa102_load_rgba(&dev, leds);

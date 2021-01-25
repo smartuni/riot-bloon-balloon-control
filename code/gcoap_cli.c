@@ -34,6 +34,7 @@
 #include "cbor.h"
 #include "cbor_util.h"
 #include "string.h"
+#include "led.h"
 
 #define ENABLE_DEBUG (0)
 #include "debug.h"
@@ -105,6 +106,7 @@ static uint16_t req_count = 0;
 static uint16_t valve_open_time = 0;
 
 extern struct gps_data gps_data;
+extern bool join_procedure_succeeded;
 
 /* Adds link format params to resource list */
 static ssize_t _encode_link(const coap_resource_t *resource, char *buf,
@@ -139,7 +141,12 @@ static void *_close_valve(void *arg){
 static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     if ( gpio_read(GPIO_PIN(0,2)) || gpio_read(GPIO_PIN(0,4)) ){
         return gcoap_response(pdu, buf, len, COAP_CODE_CONFLICT);
     }
@@ -162,7 +169,12 @@ static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, voi
 static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     if ( gpio_read(GPIO_PIN(0,2)) || gpio_read(GPIO_PIN(0,4)) ){
         return gcoap_response(pdu, buf, len, COAP_CODE_CONFLICT);
     }
@@ -185,7 +197,12 @@ static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void 
 static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     uint8_t buffer[128] = {0};
     CborEncoder encoder, mapEncoder;
     cbor_encoder_init(&encoder, buffer, sizeof(buffer), 0);
@@ -223,7 +240,12 @@ static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     phydat_t res;
     saul_reg_t *dev = saul_reg;
     if (dev == NULL) {
@@ -250,7 +272,12 @@ static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     phydat_t res;
     saul_reg_t *dev = saul_reg;
     if (dev == NULL) {
@@ -276,7 +303,12 @@ static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 static ssize_t press_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-
+    setLEDColor(0, ORANGE, 255);
+    if(join_procedure_succeeded){
+        setLEDColor(0, GREEN, 255);
+    } else {
+        setLEDColor(0, RED, 255);
+    }
     //phydat_t res;
     saul_reg_t *dev = saul_reg;
     if (dev == NULL) {
