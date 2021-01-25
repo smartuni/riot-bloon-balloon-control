@@ -137,11 +137,14 @@ static void *_periodic_send(void *arg){
         cbor_encoder_close_container_checked(&encoder, &mapEncoder);
 
         //uint8_t ret = semtech_loramac_send(&loramac, buf, MSG_LENGTH);
+        printf("Send data..\n");
         if(semtech_loramac_send(&loramac, buf, cbor_encoder_get_buffer_size(&encoder, buf)) == SEMTECH_LORAMAC_TX_DONE){
             setLEDColor(0, BLUE);
             xtimer_msleep(500);
             setLEDColor(0, GREEN);
-        }       
+        } else {
+            printf("Can not send data\n");
+        }
        // printHexFromBuffer(buf, &encoder);
         xtimer_sleep(10);
     }
