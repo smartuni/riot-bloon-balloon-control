@@ -138,9 +138,9 @@ static void *_periodic_send(void *arg){
 
         //uint8_t ret = semtech_loramac_send(&loramac, buf, MSG_LENGTH);
         if(semtech_loramac_send(&loramac, buf, cbor_encoder_get_buffer_size(&encoder, buf)) == SEMTECH_LORAMAC_TX_DONE){
-            setLEDColor(0, BLUE, 255);
+            setLEDColor(0, BLUE, LED_BRIGHTNESS);
             //xtimer_msleep(500);
-            setLEDColor(0, GREEN, 255);
+            setLEDColor(0, GREEN, LED_BRIGHTNESS);
         }       
        // printHexFromBuffer(buf, &encoder);
         xtimer_sleep(10);
@@ -194,12 +194,12 @@ int main(void)
     /* 3. join the network */
     if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED) {
         puts("LoRa join procedure failed");
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED, LED_BRIGHTNESS);
         //return 1;
     } else {
         puts("LoRa join procedure succeeded");
         join_procedure_succeeded = true;
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN, LED_BRIGHTNESS);
     }
     /* 3.5 Join succeded, create thread */
     

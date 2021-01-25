@@ -8,7 +8,8 @@
 #include "apa102.h"
 #include "apa102_params.h"
 
-#define N_LEDS 1  // Anzahl LEDs
+#define N_LEDS 2  // Anzahl LEDs
+#define LED_BRIGHTNESS 128
 
 extern apa102_t dev;
 extern color_rgba_t leds[N_LEDS];
