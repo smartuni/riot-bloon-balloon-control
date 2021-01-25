@@ -36,6 +36,9 @@ USEMODULE += xtimer
 
 USEMODULE += periph_uart
 
+USEMODULE += apa102
+USEMODULE += color
+
 USEPKG += semtech-loramac
 USEPKG += tinycbor
 USEPKG += minmea
