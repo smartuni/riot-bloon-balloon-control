@@ -91,11 +91,11 @@ struct gps_data getGPSData(void) {
     minmea_parse_gsv(&sgsv, sentences[3]);
     data.n_satellites = (uint8_t) sgsv.total_sats;
     if(data.n_satellites >= 5){
-        setLEDColor(1, GREEN, 255);
+        setLEDColor(1, GREEN);
     } else if(data.n_satellites > 0) {
-        setLEDColor(1, ORANGE, 255);
+        setLEDColor(1, ORANGE);
     } else {
-        setLEDColor(1, RED, 255);
+        setLEDColor(1, RED);
     }
 
     /* printf("NMEA: %s \n", sentences[0]);

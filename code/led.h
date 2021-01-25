@@ -11,7 +11,7 @@
 #define N_LEDS 2  // Anzahl LEDs
 
 #ifndef LED_BRIGHTNESS
-#define LED_BRIGHTNESS 128
+#define LED_BRIGHTNESS 64
 #endif
 
 extern apa102_t dev;
