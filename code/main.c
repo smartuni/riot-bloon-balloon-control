@@ -139,7 +139,7 @@ static void *_periodic_send(void *arg){
         //uint8_t ret = semtech_loramac_send(&loramac, buf, MSG_LENGTH);
         if(semtech_loramac_send(&loramac, buf, cbor_encoder_get_buffer_size(&encoder, buf)) == SEMTECH_LORAMAC_TX_DONE){
             setLEDColor(0, BLUE, LED_BRIGHTNESS);
-            //xtimer_msleep(500);
+            xtimer_msleep(500);
             setLEDColor(0, GREEN, LED_BRIGHTNESS);
         }       
        // printHexFromBuffer(buf, &encoder);
@@ -174,6 +174,7 @@ int main(void)
     gpio_init(GPIO_PIN(0,4), GPIO_OUT);
 
     initLEDs(GPIO_PIN(0,23), GPIO_PIN(0,18));
+    setLEDColor(0, YELLOW, LED_BRIGHTNESS);
 
     // INIT GPS
     kernel_pid_t lora_tid = thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
