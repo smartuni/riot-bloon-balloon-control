@@ -3,11 +3,11 @@
 apa102_t dev;
 color_rgba_t leds[N_LEDS];
 
-int setLEDColor(uint8_t led, my_color color, uint8_t alpha){
+int setLEDColor(uint8_t led, my_color color){
     if(led >= N_LEDS){
         return -1;
     }
-    leds[led].alpha = alpha;
+    leds[led].alpha = LED_BRIGHTNESS;
     switch(color){
         case OFF: {
             leds[led].color.b = 0;

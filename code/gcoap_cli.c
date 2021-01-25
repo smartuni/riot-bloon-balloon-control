@@ -141,11 +141,11 @@ static void *_close_valve(void *arg){
 static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     if ( gpio_read(GPIO_PIN(0,2)) || gpio_read(GPIO_PIN(0,4)) ){
         return gcoap_response(pdu, buf, len, COAP_CODE_CONFLICT);
@@ -169,11 +169,11 @@ static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, voi
 static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     if ( gpio_read(GPIO_PIN(0,2)) || gpio_read(GPIO_PIN(0,4)) ){
         return gcoap_response(pdu, buf, len, COAP_CODE_CONFLICT);
@@ -197,11 +197,11 @@ static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void 
 static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     uint8_t buffer[128] = {0};
     CborEncoder encoder, mapEncoder;
@@ -240,11 +240,11 @@ static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     phydat_t res;
     saul_reg_t *dev = saul_reg;
@@ -272,11 +272,11 @@ static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     phydat_t res;
     saul_reg_t *dev = saul_reg;
@@ -303,11 +303,11 @@ static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 static ssize_t press_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE, 255);
+    setLEDColor(0, ORANGE);
     if(join_procedure_succeeded){
-        setLEDColor(0, GREEN, 255);
+        setLEDColor(0, GREEN);
     } else {
-        setLEDColor(0, RED, 255);
+        setLEDColor(0, RED);
     }
     //phydat_t res;
     saul_reg_t *dev = saul_reg;
