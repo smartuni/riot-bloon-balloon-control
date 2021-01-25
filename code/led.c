@@ -56,7 +56,7 @@ void initLEDs(gpio_t data_pin, gpio_t clk_pin){
     memset(leds, 0, sizeof(color_rgba_t) * N_LEDS);
     // Set all LEDs to maximum brightness
     for(uint8_t i=0; i<N_LEDS; i++){
-        leds[i].alpha = 255;
+        leds[i].alpha = LED_BRIGHTNESS;
     }
     dev.led_numof = N_LEDS;
     dev.data_pin = data_pin;

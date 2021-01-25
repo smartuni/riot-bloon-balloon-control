@@ -169,12 +169,18 @@ int debug_toggle(int argc, char **argv)
 
 int main(void)
 {
-
     gpio_init(GPIO_PIN(0,2), GPIO_OUT);
     gpio_init(GPIO_PIN(0,4), GPIO_OUT);
 
     initLEDs(GPIO_PIN(0,23), GPIO_PIN(0,18));
     setLEDColor(0, YELLOW);
+
+    setLEDColor(0, BLUE);
+    setLEDColor(1, BLUE);
+    setLEDColor(2, BLUE);
+    setLEDColor(3, BLUE);
+    setLEDColor(4, BLUE);
+    setLEDColor(5, BLUE);
 
     // INIT GPS
     kernel_pid_t lora_tid = thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");

@@ -8,7 +8,7 @@
 #include "apa102.h"
 #include "apa102_params.h"
 
-#define N_LEDS 2  // Anzahl LEDs
+#define N_LEDS 6  // Anzahl LEDs
 
 #ifndef LED_BRIGHTNESS
 #define LED_BRIGHTNESS 64
