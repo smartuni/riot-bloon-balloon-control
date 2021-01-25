@@ -36,16 +36,16 @@ USEMODULE += xtimer
 
 USEMODULE += periph_uart
 
-USEMODULE += apa102
-USEMODULE += color
-
 USEPKG += semtech-loramac
 USEPKG += tinycbor
 USEPKG += minmea
 
+USEMODULE += apa102
+USEMODULE += color
+
 # Higher number = lower SF and higher bitrate/s. 
 # [DEFAULT]DR_0= is SF12 with 250b/s (SF11 is 440b/s then doubling each step)
-# CFLAGS += -DLORAMAC_DEFAULT_DR=LORAMAC_DR_4
+CFLAGS += -DLORAMAC_DEFAULT_DR=LORAMAC_DR_4
 # CFLAGS += -DSX127X_PARAM_PASELECT=SX127X_PA_BOOST
 
 CFLAGS += -DBMX280_PARAM_I2C_ADDR=0x76
@@ -54,8 +54,8 @@ LORA_REGION = EU868
 
 USEMODULE += esp_wifi
 
-WIFI_SSID ?= "example_ssid"
-WIFI_PASS ?= "example_password"
+WIFI_SSID ?= "ssid"
+WIFI_PASS ?= "password"
 
 #CFLAGS += -DBMX280_PARAM_I2C_ADDR=0x76
 
@@ -89,3 +89,7 @@ ifndef CONFIG_KCONFIG_MODULE_GCOAP
 GCOAP_RESEND_BUFS_MAX ?= 2
 CFLAGS += -DCONFIG_GCOAP_RESEND_BUFS_MAX=$(GCOAP_RESEND_BUFS_MAX)
 endif
+
+# LED strip count and brightness
+CFLAGS += -DN_LEDS=2
+CFLAGS += -DLED_BRIGHTNESS=128

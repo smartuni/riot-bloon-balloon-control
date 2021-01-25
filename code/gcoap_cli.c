@@ -141,7 +141,8 @@ static void *_close_valve(void *arg){
 static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {
@@ -169,7 +170,8 @@ static ssize_t valve_down_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, voi
 static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {
@@ -197,7 +199,8 @@ static ssize_t valve_up_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void 
 static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {
@@ -240,7 +243,8 @@ static ssize_t _gps_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {
@@ -272,7 +276,8 @@ static ssize_t temp_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx
 static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {
@@ -303,7 +308,8 @@ static ssize_t hum_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 static ssize_t press_handler(coap_pkt_t* pdu, uint8_t *buf, size_t len, void *ctx)
 {
     (void)ctx;
-    setLEDColor(0, ORANGE);
+    setLEDColor(0, WHITE);
+    xtimer_msleep(100);
     if(join_procedure_succeeded){
         setLEDColor(0, GREEN);
     } else {

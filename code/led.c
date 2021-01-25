@@ -8,11 +8,17 @@ int setLEDColor(uint8_t led, my_color color){
         return -1;
     }
     leds[led].alpha = LED_BRIGHTNESS;
-    switch(color){
+    switch(color) {
         case OFF: {
             leds[led].color.b = 0;
             leds[led].color.g = 0;
             leds[led].color.r = 0;
+            break;
+        }
+        case WHITE: {
+            leds[led].color.b = 255;
+            leds[led].color.g = 255;
+            leds[led].color.r = 255;
             break;
         }
         case RED: {
@@ -43,6 +49,12 @@ int setLEDColor(uint8_t led, my_color color){
             leds[led].color.b = 0;
             leds[led].color.g = 128;
             leds[led].color.r = 255;
+            break;
+        }
+        case PURPLE: {
+            leds[led].color.b = 255;
+            leds[led].color.g = 0;
+            leds[led].color.r = 128;
             break;
         }
         default: break;

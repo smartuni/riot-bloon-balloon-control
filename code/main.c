@@ -24,6 +24,7 @@
 #include "bmx280.h"
 #include "time.h"
 #include "msg.h"
+#include "led.h"
 
 #include "net/gcoap.h"
 //#include "kernel_types.h"
@@ -32,15 +33,13 @@
 #include "gps_data.h"
 #include "periph/uart.h"
 #include "cbor_util.h"
-#include "led.h"
-#include "periph/spi.h"
 
 #define BUFSIZE 128
 #define MSG_LENGTH 31
 #define MAIN_QUEUE_SIZE (4)
 
 bool DEBUG_GPS = false;
-
+bool DEBUG_LORA = false;
 
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 
@@ -57,8 +56,6 @@ static const shell_command_t shell_commands[] = {
 struct gps_data gps_data = {0};
 
 bool join_procedure_succeeded = false;
-int spidev = SPI_DEV(0);
-
 
 //#define RECV_MSG_QUEUE                   (4U)
 //static msg_t _recv_queue[RECV_MSG_QUEUE];
@@ -137,15 +134,23 @@ static void *_periodic_send(void *arg){
         cbor_encoder_close_container_checked(&encoder, &mapEncoder);
 
         //uint8_t ret = semtech_loramac_send(&loramac, buf, MSG_LENGTH);
-        printf("Send data..\n");
-        if(semtech_loramac_send(&loramac, buf, cbor_encoder_get_buffer_size(&encoder, buf)) == SEMTECH_LORAMAC_TX_DONE){
-            setLEDColor(0, BLUE);
-            xtimer_msleep(500);
+        uint8_t ret = semtech_loramac_send(&loramac, buf, cbor_encoder_get_buffer_size(&encoder, buf));
+        if (DEBUG_LORA) {
+            if (ret != SEMTECH_LORAMAC_TX_DONE) {
+                printf("Cannot send message '%s' ->> Return Code: %d\n", buf, ret);
+            } else {
+                printf("Message send\n");
+            }
+        }
+
+        setLEDColor(0, BLUE);
+        xtimer_msleep(100);
+        if (join_procedure_succeeded) {
             setLEDColor(0, GREEN);
         } else {
-            printf("Can not send data\n");
+            setLEDColor(0, RED);
         }
-       // printHexFromBuffer(buf, &encoder);
+
         xtimer_sleep(10);
     }
     return NULL;
@@ -163,6 +168,16 @@ int debug_toggle(int argc, char **argv)
             DEBUG_GPS = true;
         }
         printf("\n");
+    } else if (strcmp(argv[1], "lora") == 0) {
+        printf("Debug toggle: lora => ");
+        if (DEBUG_LORA) {
+            printf("false");
+            DEBUG_LORA = false;
+        } else {
+            printf("true");
+            DEBUG_LORA = true;
+        }
+        printf("\n");
     } else {
         printf("Debug toggle: debug target does not exist\n");
     }
@@ -172,23 +187,13 @@ int debug_toggle(int argc, char **argv)
 
 int main(void)
 {
+
     gpio_init(GPIO_PIN(0,2), GPIO_OUT);
     gpio_init(GPIO_PIN(0,4), GPIO_OUT);
 
     initLEDs(GPIO_PIN(0,23), GPIO_PIN(0,18));
-    setLEDColor(0, YELLOW);
+    setLEDColor(0, ORANGE);
 
-    setLEDColor(0, BLUE);
-    setLEDColor(1, BLUE);
-    setLEDColor(2, BLUE);
-    setLEDColor(3, BLUE);
-    setLEDColor(4, BLUE);
-    setLEDColor(5, BLUE);
-
-    // INIT GPS
-    kernel_pid_t lora_tid = thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
-    //thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
-    initGPSData(lora_tid);
 
     /* for the thread running the shell */
     msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
@@ -212,6 +217,12 @@ int main(void)
         setLEDColor(0, GREEN);
     }
     /* 3.5 Join succeded, create thread */
+
+
+    // INIT GPS
+    kernel_pid_t lora_tid = thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
+    //thread_create(_send_stack, sizeof(_send_stack), THREAD_PRIORITY_MAIN - 1, 0, _periodic_send, NULL, "Send Thread");
+    initGPSData(lora_tid);
     
     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
     return 0;
